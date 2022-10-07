@@ -9,12 +9,7 @@
             현재 위치 설정
           </button> -->
           <p>지하철역 이름을 입력해주세요</p>
-          <input
-            class="input"
-            type="text"
-            v-model="platform"
-            placeholder="지하철역을 기준으로 맛집을 찾아보세요"
-          />
+          <input class="input" type="text" v-model="platform" />
         </div>
         <div @click="lunchPicker">
           <img :src="emoji" class="img-fluid emoji" />
