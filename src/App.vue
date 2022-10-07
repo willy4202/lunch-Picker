@@ -1,32 +1,12 @@
 <template>
-  <div
-    class="vw-100 vh-100 bg-warning d-flex justify-content-center align-items-center"
-  >
+  <div class="vw-100 vh-100 d-flex justify-content-center align-items-center">
     <div class="text-center">
-      <button
-        type="button"
-        class="btn btn-light btn-sm"
-        data-toggle="tooltip"
-        data-placement="top"
-        title="Tooltip on top"
-        @click="getLocation"
-      >
+      <button type="button" class="btn btn-sm" @click="getLocation">
         현재 위치 설정
       </button>
       <div @click="getRestaurant">
-        <img :src="emoji" class="img-fluid" />
-        <h4
-          class="text-white fw-bold mask"
-          style="
-            color: linear-gradient(
-              45deg,
-              rgba(29, 236, 197, 0.5),
-              rgba(91, 14, 214, 0.5) 100%
-            );
-          "
-        >
-          눌러서 점심 찾기
-        </h4>
+        <img :src="emoji" class="img-fluid emoji" />
+        <h4 class="fw-bold mask">눌러서 점심 찾기</h4>
       </div>
     </div>
   </div>
@@ -53,6 +33,8 @@ export default {
       console.log(`Latitude : ${crd.latitude}`);
       console.log(`Longitude: ${crd.longitude}`);
       console.log(`More or less${crd.accuracy} meters.`);
+
+      return crd.latitude, crd.longitude;
     },
 
     error: function (err) {
@@ -69,3 +51,19 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.emoji {
+  width: 50%;
+  margin: 3vh 0 10vh;
+}
+
+.btn {
+  background-color: gold;
+}
+
+h4:hover {
+  color: gold;
+  transition: 0.3s;
+}
+</style>
