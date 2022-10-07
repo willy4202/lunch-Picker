@@ -5,11 +5,17 @@
     >
       <div class="text-center opacity" v-if="isShow">
         <div>
-          <!-- <button type="button" class="btn btn-sm" @click="getLocation">
+          <button type="button" class="btn btn-sm mb-3" @click="getLocation">
             현재 위치 설정
-          </button> -->
-          <p>지하철역 이름을 입력해주세요</p>
-          <input class="input" type="text" v-model="platform" />
+          </button>
+
+          <input
+            class="input"
+            type="text"
+            :value="platform"
+            @input="changeKeyword"
+            placeholder="원하는 지역을 검색해보세요"
+          />
         </div>
         <div @click="lunchPicker">
           <img :src="emoji" class="img-fluid emoji" />
@@ -31,11 +37,14 @@ export default {
     return {
       emoji: require(`@/assets/${Math.floor(Math.random() * 4 + 1)}.gif`),
       isShow: true,
-
-      x: '127',
-      y: '26',
-      platform: '강남역',
+      x: '',
+      y: '',
+      platform: '',
     };
+  },
+
+  created() {
+    this.getLocation();
   },
 
   updated() {
@@ -51,7 +60,6 @@ export default {
       this.x = long;
       this.y = lat;
       console.log(long, lat);
-      alert('위치 설정 완료');
     },
 
     error(err) {
@@ -90,6 +98,10 @@ export default {
       console.log(restaurants.documents);
 
       location.href = picked.place_url;
+    },
+
+    changeKeyword(e) {
+      this.platform = e.target.value;
     },
   },
 };
