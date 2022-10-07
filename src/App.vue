@@ -49,9 +49,6 @@ export default {
 
   updated() {
     console.log(this.platform);
-    setTimeout(() => {
-      this.isShow = !this.isShow;
-    }, 3000);
   },
 
   methods: {
