@@ -3,12 +3,18 @@
     <div
       class="vw-100 vh-100 d-flex justify-content-center align-items-center wrapper"
     >
+      <div class="darkMode" v-if="isLoading">
+        <div class="spinIcon">
+          <div class="spinner-border text-warning" role="status">
+            <span class="sr-only"></span>
+          </div>
+        </div>
+      </div>
       <div class="text-center opacity" v-if="isShow">
         <div>
           <button type="button" class="btn btn-sm mb-3" @click="getLocation">
             현재 위치 설정
           </button>
-
           <input
             class="input"
             type="text"
@@ -37,18 +43,11 @@ export default {
     return {
       emoji: require(`@/assets/${Math.floor(Math.random() * 4 + 1)}.gif`),
       isShow: true,
-      x: '',
-      y: '',
+      x: 127.0257765,
+      y: 37.4995064,
       platform: '',
+      isLoading: false,
     };
-  },
-
-  created() {
-    this.getLocation();
-  },
-
-  updated() {
-    console.log(this.platform);
   },
 
   methods: {
@@ -59,20 +58,34 @@ export default {
 
       this.x = long;
       this.y = lat;
-      console.log(long, lat);
     },
 
     error(err) {
       console.warn(`ERROR(${err.code}): ${err.message}`);
     },
 
-    getLocation() {
-      return navigator.geolocation.getCurrentPosition(this.success, this.error);
+    async getLocation() {
+      await this.loading(true);
+
+      console.log(this.x, this.y);
+      const location = await navigator.geolocation.getCurrentPosition(
+        this.success,
+        this.error
+      );
+
+      await this.loading(false);
+
+      console.log(this.x, this.y);
+      return location;
+    },
+
+    loading(is) {
+      this.isLoading = is;
     },
 
     async getRestaurant() {
       this.isShow = !this.isShow;
-      const baseUrl = `https://dapi.kakao.com/v2/local/search/keyword.json?y=${this.y}&x=${this.y}&radius=50`;
+      const baseUrl = `https://dapi.kakao.com/v2/local/search/keyword.json?y=${this.y}&x=${this.x}&radius=300`;
       const url = `${baseUrl}&query=${encodeURIComponent(
         `${this.platform} 맛집`
       )}&page=${this.randomPage()}`;
@@ -93,9 +106,13 @@ export default {
 
     async lunchPicker() {
       const restaurants = await this.getRestaurant();
-      const picked = restaurants.documents[Math.floor(Math.random())];
+      const picked =
+        restaurants.documents[
+          Math.floor(Math.random() * restaurants.documents.length) + 1
+        ];
 
       console.log(restaurants.documents);
+      console.log(picked);
 
       location.href = picked.place_url;
     },
@@ -110,6 +127,23 @@ export default {
 <style scoped>
 article {
   position: relative;
+}
+
+.darkMode {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  opacity: 20%;
+  z-index: 30;
+}
+
+.spinIcon {
+  z-index: 100;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .input {
