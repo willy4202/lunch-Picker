@@ -15,13 +15,13 @@
           <button type="button" class="btn btn-sm mb-3" @click="getLocation">
             현재 위치 설정
           </button>
-          <input
+          <!-- <input
             class="input"
             type="text"
             :value="platform"
             @input="changeKeyword"
             placeholder="원하는 지역을 검색해보세요"
-          />
+          /> -->
         </div>
         <div @click="lunchPicker">
           <img :src="emoji" class="img-fluid emoji" />
@@ -85,7 +85,7 @@ export default {
 
     async getRestaurant() {
       this.isShow = !this.isShow;
-      const baseUrl = `https://dapi.kakao.com/v2/local/search/keyword.json?y=${this.y}&x=${this.x}&radius=300`;
+      const baseUrl = `https://dapi.kakao.com/v2/local/search/keyword.json?y=${this.y}&x=${this.x}&radius=600`;
       const url = `${baseUrl}&query=${encodeURIComponent(
         `${this.platform} 맛집`
       )}&page=${this.randomPage()}`;
