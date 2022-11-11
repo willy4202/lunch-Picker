@@ -12,6 +12,11 @@
       </div>
       <div class="text-center opacity" v-if="isShow">
         <div>
+          <select v-model="category">
+            <option v-for="menu in category" :key="menu">
+            {{menu}}</option>
+
+          </select>
           <button type="button" class="btn btn-sm mb-3" @click="getLocation">
             현재 위치 설정
           </button>
@@ -26,6 +31,7 @@
         <div @click="lunchPicker">
           <img :src="emoji" class="img-fluid emoji" />
           <h4 class="fw-bold mask">눌러서 점심 찾기</h4>
+   
         </div>
       </div>
       <div class="spinner-grow text-warning" role="status" v-if="!isShow">
@@ -47,6 +53,9 @@ export default {
       y: 37.4995064,
       platform: '',
       isLoading: false,
+      category:[
+        '중식','양식','일식','한식'
+      ]
     };
   },
 
@@ -87,7 +96,7 @@ export default {
       this.isShow = !this.isShow;
       const baseUrl = `https://dapi.kakao.com/v2/local/search/keyword.json?y=${this.y}&x=${this.x}&radius=600`;
       const url = `${baseUrl}&query=${encodeURIComponent(
-        `${this.platform} 맛집`
+        `${this.platform} ${this.category} 맛집`
       )}&page=${this.randomPage()}`;
       const authorization = 'KakaoAK a6e6b1da205e7e44358765185414aa27';
       const res = await fetch(url, {
