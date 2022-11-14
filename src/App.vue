@@ -13,6 +13,7 @@
       <div class="text-center opacity" v-if="isShow">
         <div class="option-selector">
           <select v-model="selectedCategory">
+            <option selected value="">== 선택 ==</option>
             <option v-for="category in categories" :key="category.id">
               {{ category.menu }}
             </option>
