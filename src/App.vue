@@ -11,12 +11,13 @@
         </div>
       </div>
       <div class="text-center opacity" v-if="isShow">
-        <div>
-          <select v-model="category">
+        <div class="option-selector">
+          <select v-model="selectedCategory">
             <option v-for="category in categories" :key="category.id">
               {{ category.menu }}
             </option>
           </select>
+          <h4>어떤 메뉴를 원하시나요?</h4>
           <button type="button" class="btn btn-sm mb-3" @click="getLocation">
             현재 위치 설정
           </button>
@@ -51,9 +52,13 @@ export default {
         { id: 2, menu: '중식' },
         { id: 3, menu: '양식' },
       ],
+      selectedCategory: '',
     };
   },
 
+  updated() {
+    console.log(this.selectedCategory);
+  },
   methods: {
     async success(pos) {
       let crd = pos.coords;
@@ -91,7 +96,7 @@ export default {
       this.isShow = !this.isShow;
       const baseUrl = `https://dapi.kakao.com/v2/local/search/keyword.json?y=${this.y}&x=${this.x}&radius=600`;
       const url = `${baseUrl}&query=${encodeURIComponent(
-        `${this.platform} ${this.category} 맛집`
+        `${this.platform} ${this.selectedCategory} 맛집`
       )}&page=${this.randomPage()}`;
       const authorization = 'KakaoAK a6e6b1da205e7e44358765185414aa27';
       const res = await fetch(url, {
@@ -210,5 +215,12 @@ h4:hover {
   to {
     opacity: 1;
   }
+}
+
+.option-selector {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column-reverse;
 }
 </style>
