@@ -13,25 +13,17 @@
       <div class="text-center opacity" v-if="isShow">
         <div>
           <select v-model="category">
-            <option v-for="menu in category" :key="menu">
-            {{menu}}</option>
-
+            <option v-for="category in categories" :key="category.id">
+              {{ category.menu }}
+            </option>
           </select>
           <button type="button" class="btn btn-sm mb-3" @click="getLocation">
             현재 위치 설정
           </button>
-          <!-- <input
-            class="input"
-            type="text"
-            :value="platform"
-            @input="changeKeyword"
-            placeholder="원하는 지역을 검색해보세요"
-          /> -->
         </div>
         <div @click="lunchPicker">
           <img :src="emoji" class="img-fluid emoji" />
           <h4 class="fw-bold mask">눌러서 점심 찾기</h4>
-   
         </div>
       </div>
       <div class="spinner-grow text-warning" role="status" v-if="!isShow">
@@ -53,9 +45,12 @@ export default {
       y: 37.4995064,
       platform: '',
       isLoading: false,
-      category:[
-        '중식','양식','일식','한식'
-      ]
+      categories: [
+        { id: 0, menu: '한식' },
+        { id: 1, menu: '일식' },
+        { id: 2, menu: '중식' },
+        { id: 3, menu: '양식' },
+      ],
     };
   },
 

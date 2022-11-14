@@ -12,6 +12,7 @@
     "vue": "^3.2.13",
     "vue-browser-geolocation": "^1.8.0",
     "vue-geolocation-api": "^0.1.21",
+    "vue-gtag": "^2.0.1",
     "vue-kakao-sdk": "^0.2.5"
   },
   "devDependencies": {
